@@ -9,53 +9,229 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
   
-  <!-- FontAwesome Icons -->
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
   <style>
-    .admin-auth-wrapper {
-      min-height: 80vh;
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg-main: #f1f5f9;
+      --border: #e2e8f0;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: #0f172a;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      color: white;
+      font-size: 1.3rem;
     }
+
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text span {
+      font-size: 0.74rem;
+      color: #64748b;
+      display: block;
+    }
+
+    .admin-auth-wrapper {
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+    }
+
     .auth-box {
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 30px;
-      max-width: 420px;
+      padding: 32px 24px;
+      max-width: 400px;
       width: 100%;
       box-shadow: var(--shadow-lg);
     }
+
     .auth-header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
+
     .auth-header i {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: var(--primary);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
+
     .auth-header h2 {
-      font-size: 1.4rem;
-      color: #0f172a;
+      font-size: 1.35rem;
+      font-weight: 800;
     }
+
     .auth-error {
       background: #fee2e2;
       color: #b91c1c;
-      padding: 10px;
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
       margin-bottom: 16px;
       display: none;
+      font-weight: 600;
     }
+
     .admin-dashboard {
-      display: none; /* Shown only after login */
+      display: none;
     }
+
+    .admin-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .admin-card-section {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 85px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #334155;
+      padding: 8px 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
     .db-badge {
       display: inline-flex;
       align-items: center;
@@ -63,25 +239,46 @@
       font-size: 0.78rem;
       padding: 4px 10px;
       border-radius: var(--radius-full);
-      background: #e0f2fe;
-      color: #0369a1;
-      font-weight: 600;
-    }
-    .db-badge.connected {
       background: #dcfce7;
       color: #15803d;
+      font-weight: 700;
+    }
+
+    .open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .toast-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background: #0f172a;
+      color: white;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: none;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
 
-  <!-- =========================================
-       हेडर / नेव्हिगेशन
-       ========================================= -->
+  <!-- हेडर -->
   <header class="site-header">
     <div class="header-container">
       <a href="index.html" class="brand-wrapper">
-        <div class="logo-badge" style="background: linear-gradient(135deg, #1e3a8a, #0284c7);">
+        <div class="logo-badge">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
         <div class="brand-text">
@@ -90,33 +287,30 @@
         </div>
       </a>
 
-      <div class="header-actions">
-        <a href="index.html" class="admin-header-btn">
-          <i class="fa-solid fa-house"></i>
-          <span>मुख्यपृष्ठ</span>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <a href="index.html" class="btn-secondary" style="text-decoration: none; font-size: 0.85rem;">
+          <i class="fa-solid fa-house"></i> मुख्यपृष्ठ
         </a>
-        <button id="logoutBtn" class="btn-danger" style="display: none; padding: 6px 12px; font-size: 0.8rem;">
+        <button id="logoutBtn" class="btn-danger" style="display: none; font-size: 0.85rem;">
           <i class="fa-solid fa-right-from-bracket"></i> लॉगआउट
         </button>
       </div>
     </div>
   </header>
 
-  <!-- =========================================
-       १. ॲडमिन लॉगिन स्क्रीन (Auth View)
-       ========================================= -->
+  <!-- १. लॉगिन स्क्रीन -->
   <div id="authScreen" class="admin-auth-wrapper">
     <div class="auth-box">
       <div class="auth-header">
         <i class="fa-solid fa-user-lock"></i>
         <h2>शाळा ॲडमिन लॉगिन</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+        <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">
           कृपया अधिकृत लॉगिन आयडी व पासवर्ड टाका
         </p>
       </div>
 
       <div id="authErrorMsg" class="auth-error">
-        <i class="fa-solid fa-circle-exclamation"></i> अमान्य लॉगिन आयडी किंवा पासवर्ड!
+        <i class="fa-solid fa-circle-exclamation"></i> चुकीचा आयडी किंवा पासवर्ड!
       </div>
 
       <form id="adminLoginForm">
@@ -141,39 +335,35 @@
     </div>
   </div>
 
-  <!-- =========================================
-       २. ॲडमिन डॅशबोर्ड स्क्रीन (Authenticated View)
-       ========================================= -->
+  <!-- २. ॲडमिन डॅशबोर्ड -->
   <main id="dashboardScreen" class="admin-dashboard">
     <div class="admin-container">
 
       <!-- स्टेटस बार -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
         <div>
-          <h2 style="font-size: 1.35rem; font-weight: 700; color: #0f172a;">प्रशासकीय नियंत्रण कक्ष</h2>
-          <span style="font-size: 0.85rem; color: var(--text-muted);">लॉगिन आयडी: <strong>9226979531</strong> (Super Admin)</span>
+          <h2 style="font-size: 1.35rem; font-weight: 700;">प्रशासकीय नियंत्रण कक्ष</h2>
+          <span style="font-size: 0.85rem; color: #64748b;">लॉगिन आयडी: <strong>9226979531</strong></span>
         </div>
-        <div id="dbStatusBadge" class="db-badge connected">
+        <div class="db-badge">
           <i class="fa-solid fa-database"></i> Firebase RTDB कनेक्टेड
         </div>
       </div>
 
-      <!-- १. थेट सूचना प्रसारण विभाग (Live Notice Broadcaster) -->
+      <!-- १. थेट सूचना प्रसारण विभाग -->
       <section class="admin-card-section" style="border-top: 4px solid #ef4444;">
         <h3 class="section-title">
           <i class="fa-solid fa-bullhorn" style="color: #ef4444;"></i>
           होमपेजवर थेट सूचना प्रसारित करा (Live Notice Broadcast)
         </h3>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+        <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 16px;">
           येथे टाकलेली सूचना <code>ezyschool.in</code> च्या होमपेजवर सर्वात वर (Top Bar) लाईव्ह दिसेल.
         </p>
 
         <form id="noticeBroadcastForm">
           <div class="form-group">
-            <label for="noticeTextInput">
-              सूचना मजकूर (Notice Message):
-            </label>
-            <textarea id="noticeTextInput" class="form-textarea" placeholder="उदा. सर्व शिक्षकांना सूचित करण्यात येते की, उद्या दिनांक १० रोजी पोषण आहार मासिक अहवाल जमा करावा..." required></textarea>
+            <label for="noticeTextInput">सूचना मजकूर (Notice Message):</label>
+            <textarea id="noticeTextInput" class="form-textarea" placeholder="उदा. सर्व शिक्षकांना सूचित करण्यात येते की, उद्या पोषण आहार मासिक अहवाल जमा करावा..." required></textarea>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
@@ -181,83 +371,65 @@
               <label for="noticePriority">प्राधान्य / रंग (Priority):</label>
               <select id="noticePriority" class="form-select">
                 <option value="urgent">🔴 तातडीची (Urgent - Red)</option>
-                <option value="normal" selected>🔵 महत्त्वाची / सामान्य (Normal - Blue)</option>
+                <option value="normal" selected>🔵 सामान्य / महत्त्वाची (Normal - Blue)</option>
                 <option value="info">🟢 माहितीसाठी (Info - Teal)</option>
               </select>
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
               <label for="noticeBadgeInput">बॅज टॅग (Badge Text):</label>
-              <input type="text" id="noticeBadgeInput" class="form-input" value="महत्त्वाची सूचना" placeholder="उदा. महत्त्वाची सूचना / अलर्ट">
+              <input type="text" id="noticeBadgeInput" class="form-input" value="महत्त्वाची सूचना">
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
             <input type="checkbox" id="noticeActiveToggle" checked style="width: 18px; height: 18px; cursor: pointer;">
-            <label for="noticeActiveToggle" style="margin-bottom: 0; font-size: 0.95rem; font-weight: 600; cursor: pointer;">
-              ही सूचना होमपेजवर त्वरित सक्रिय ठेवा (Show Notice on Homepage)
+            <label for="noticeActiveToggle" style="margin-bottom: 0; font-weight: 600; cursor: pointer;">
+              ही सूचना होमपेजवर त्वरित सक्रिय ठेवा
             </label>
           </div>
 
           <div style="display: flex; gap: 12px; flex-wrap: wrap;">
             <button type="submit" class="btn-primary" style="flex: 1; min-width: 200px; background: #dc2626;">
-              <i class="fa-solid fa-tower-broadcast"></i> सूचना प्रसारित करा (Broadcast Now)
+              <i class="fa-solid fa-tower-broadcast"></i> सूचना प्रसारित करा (Broadcast)
             </button>
             <button type="button" id="clearNoticeBtn" class="btn-secondary">
-              <i class="fa-solid fa-trash-can"></i> सूचना बंद करा (Disable)
+              <i class="fa-solid fa-trash-can"></i> सूचना बंद करा
             </button>
           </div>
         </form>
       </section>
 
-      <!-- २. पोर्टल लिंक्स व्यवस्थापन (Manage 5 Card Links) -->
+      <!-- २. पोर्टल लिंक्स व्यवस्थापन -->
       <section class="admin-card-section" style="border-top: 4px solid #2563eb;">
         <h3 class="section-title">
           <i class="fa-solid fa-link" style="color: #2563eb;"></i>
-          ५ कार्ड्सच्या लिंक्स व्यवस्थापित करा (Card URLs Manager)
+          ५ कार्ड्सच्या लिंक्स व्यवस्थापित करा (Card URLs)
         </h3>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
-          Result व HPC चे नवीन पोर्टल उपलब्ध झाल्यावर त्यांची लिंक येथे सेव्ह करा. ती थेट होमपेजवर लागू होईल.
-        </p>
 
         <form id="portalLinksForm">
-          
-          <!-- ४. Result Link -->
-          <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border-left: 4px solid #8b5cf6;">
-            <label for="linkResultInput">
-              <i class="fa-solid fa-square-poll-vertical" style="color: #8b5cf6;"></i>
-              <strong>४. निकाल पोर्टल (Result Portal Link):</strong>
-            </label>
-            <input type="url" id="linkResultInput" class="form-input" placeholder="उदा. https://gvpapps.github.io/School-Result/ (लिंक आल्यावर येथे पेस्ट करा)">
-            <span style="font-size: 0.75rem; color: var(--text-muted);">* लिंक टाकल्यास होमपेजवरील Result कार्ड तात्काळ 'सक्रिय' (Active) होईल.</span>
+          <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+            <label for="linkResultInput"><strong>४. निकाल पोर्टल लिंक (Result Link):</strong></label>
+            <input type="url" id="linkResultInput" class="form-input" placeholder="उदा. https://gvpapps.github.io/School-Result/ (लिंक आल्यावर येथे टाका)">
           </div>
 
-          <!-- ५. HPC Link -->
-          <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border-left: 4px solid #ec4899;">
-            <label for="linkHpcInput">
-              <i class="fa-solid fa-award" style="color: #ec4899;"></i>
-              <strong>५. प्रगती पत्रक पोर्टल (HPC Card Link):</strong>
-            </label>
-            <input type="url" id="linkHpcInput" class="form-input" placeholder="उदा. https://gvpapps.github.io/HPC-Card/ (लिंक आल्यावर येथे पेस्ट करा)">
-            <span style="font-size: 0.75rem; color: var(--text-muted);">* लिंक टाकल्यास होमपेजवरील HPC कार्ड तात्काळ 'सक्रिय' (Active) होईल.</span>
+          <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: 8px; border-left: 4px solid #ec4899;">
+            <label for="linkHpcInput"><strong>५. प्रगती पत्रक पोर्टल लिंक (HPC Link):</strong></label>
+            <input type="url" id="linkHpcInput" class="form-input" placeholder="उदा. https://gvpapps.github.io/HPC-Card/ (लिंक आल्यावर येथे टाका)">
           </div>
 
-          <!-- इतर ३ लिंक्स (MDM, Cash Book, Survey) -->
-          <details style="margin-top: 14px; background: #ffffff; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm);">
-            <summary style="font-size: 0.88rem; font-weight: 600; cursor: pointer; color: var(--text-muted);">
-              इतर ३ मूळ लिंक्स बदलायच्या असल्यास येथे क्लिक करा (Advanced Settings)
+          <details style="margin-top: 14px; background: #ffffff; padding: 10px; border: 1px solid var(--border); border-radius: 8px;">
+            <summary style="font-size: 0.88rem; font-weight: 600; cursor: pointer; color: #64748b;">
+              इतर ३ मूळ लिंक्स बदलायच्या असल्यास येथे क्लिक करा
             </summary>
-            
             <div class="form-group" style="margin-top: 14px;">
-              <label for="linkMdmInput">१. MDM Portal Link:</label>
+              <label for="linkMdmInput">१. MDM Link:</label>
               <input type="url" id="linkMdmInput" class="form-input" value="https://gvpapps.github.io/GVP-MDM/">
             </div>
-
             <div class="form-group">
               <label for="linkCashbookInput">२. CASH BOOK Link:</label>
               <input type="url" id="linkCashbookInput" class="form-input" value="https://gvpapps.github.io/CASH-BOOK-Mohapada/">
             </div>
-
             <div class="form-group">
               <label for="linkSurveyInput">३. GAV-Survey Link:</label>
               <input type="url" id="linkSurveyInput" class="form-input" value="https://gvpapps.github.io/GAV-Survey/">
@@ -270,15 +442,12 @@
         </form>
       </section>
 
-      <!-- ३. त्वरित पूर्वदृश्य (Quick Live Preview) -->
+      <!-- थेट प्रिव्ह्यू -->
       <section class="admin-card-section" style="text-align: center;">
         <h3 class="section-title" style="justify-content: center;">
-          <i class="fa-solid fa-eye"></i> थेट संकेतस्थळ तपासा
+          <i class="fa-solid fa-eye"></i> संकेतस्थळ तपासा
         </h3>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
-          तुमच्या बदलांनंतर होमपेज कसे दिसते ते पाहण्यासाठी खालील बटण दाबा.
-        </p>
-        <a href="index.html" target="_blank" class="open-btn" style="display: inline-flex; text-decoration: none; padding: 10px 24px;">
+        <a href="index.html" target="_blank" class="open-btn">
           <span>EZY School होमपेज उघडा</span>
           <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </a>
@@ -287,15 +456,159 @@
     </div>
   </main>
 
-  <!-- Toast Notification Box -->
-  <div id="toastBox" class="toast-box" role="status"></div>
+  <div id="toastBox" class="toast-box"></div>
 
   <!-- Firebase Compat Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  <!-- App Scripts -->
-  <script src="js/firebase-config.js"></script>
-  <script src="js/admin.js"></script>
+  <script>
+    const ADMIN_CREDENTIALS = {
+      id: "9226979531",
+      pw: "Praveer@2503"
+    };
+
+    const firebaseConfig = {
+      databaseURL: "https://ezyschool-faa5c-default-rtdb.firebaseio.com",
+      projectId: "ezyschool-faa5c"
+    };
+
+    let rtdb = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        rtdb = firebase.database();
+      }
+    } catch(e) {}
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const authScreen = document.getElementById('authScreen');
+      const dashboardScreen = document.getElementById('dashboardScreen');
+      const loginForm = document.getElementById('adminLoginForm');
+      const errorMsg = document.getElementById('authErrorMsg');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      if (sessionStorage.getItem('ezy_admin_authenticated') === 'true') {
+        showDashboard();
+      }
+
+      if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const uid = document.getElementById('adminUserId').value.trim();
+          const pass = document.getElementById('adminPassword').value.trim();
+
+          if (uid === ADMIN_CREDENTIALS.id && pass === ADMIN_CREDENTIALS.pw) {
+            sessionStorage.setItem('ezy_admin_authenticated', 'true');
+            showDashboard();
+            showAdminToast('यशस्वी लॉगिन!');
+          } else {
+            if (errorMsg) errorMsg.style.display = 'block';
+          }
+        });
+      }
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          sessionStorage.removeItem('ezy_admin_authenticated');
+          window.location.reload();
+        });
+      }
+
+      function showDashboard() {
+        if (authScreen) authScreen.style.display = 'none';
+        if (dashboardScreen) dashboardScreen.style.display = 'block';
+        if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+        loadCurrentData();
+      }
+
+      // लोड चालू डेटा
+      function loadCurrentData() {
+        if (!rtdb) return;
+        rtdb.ref('notice').once('value').then(snap => {
+          const n = snap.val();
+          if (n) {
+            if (n.text) document.getElementById('noticeTextInput').value = n.text;
+            if (n.priority) document.getElementById('noticePriority').value = n.priority;
+            if (n.badge) document.getElementById('noticeBadgeInput').value = n.badge;
+            if (typeof n.active !== 'undefined') document.getElementById('noticeActiveToggle').checked = n.active;
+          }
+        });
+
+        rtdb.ref('portal_links').once('value').then(snap => {
+          const l = snap.val();
+          if (l) {
+            if (l.result && l.result.url) document.getElementById('linkResultInput').value = l.result.url;
+            if (l.hpc && l.hpc.url) document.getElementById('linkHpcInput').value = l.hpc.url;
+            if (l.mdm && l.mdm.url) document.getElementById('linkMdmInput').value = l.mdm.url;
+            if (l.cashbook && l.cashbook.url) document.getElementById('linkCashbookInput').value = l.cashbook.url;
+            if (l.survey && l.survey.url) document.getElementById('linkSurveyInput').value = l.survey.url;
+          }
+        });
+      }
+
+      // सूचना फॉर्म
+      const noticeForm = document.getElementById('noticeBroadcastForm');
+      if (noticeForm) {
+        noticeForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const payload = {
+            text: document.getElementById('noticeTextInput').value.trim(),
+            priority: document.getElementById('noticePriority').value,
+            badge: document.getElementById('noticeBadgeInput').value.trim() || 'सूचना',
+            active: document.getElementById('noticeActiveToggle').checked,
+            updatedAt: Date.now()
+          };
+          if (rtdb) {
+            rtdb.ref('notice').set(payload).then(() => {
+              showAdminToast('📢 सूचना होमपेजवर प्रसारित झाली आहे!');
+            });
+          }
+        });
+      }
+
+      // बंद सूचना
+      const clearBtn = document.getElementById('clearNoticeBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          document.getElementById('noticeActiveToggle').checked = false;
+          if (rtdb) {
+            rtdb.ref('notice/active').set(false).then(() => {
+              showAdminToast('सूचना बंद केली.');
+            });
+          }
+        });
+      }
+
+      // लिंक्स फॉर्म
+      const linksForm = document.getElementById('portalLinksForm');
+      if (linksForm) {
+        linksForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const payload = {
+            result: { url: document.getElementById('linkResultInput').value.trim(), title: "Result Portal" },
+            hpc: { url: document.getElementById('linkHpcInput').value.trim(), title: "HPC Card Portal" },
+            mdm: { url: document.getElementById('linkMdmInput').value.trim() || "https://gvpapps.github.io/GVP-MDM/" },
+            cashbook: { url: document.getElementById('linkCashbookInput').value.trim() || "https://gvpapps.github.io/CASH-BOOK-Mohapada/" },
+            survey: { url: document.getElementById('linkSurveyInput').value.trim() || "https://gvpapps.github.io/GAV-Survey/" },
+            updatedAt: Date.now()
+          };
+          if (rtdb) {
+            rtdb.ref('portal_links').set(payload).then(() => {
+              showAdminToast('🔗 सर्व लिंक्स जतन झाल्या आहेत!');
+            });
+          }
+        });
+      }
+    });
+
+    function showAdminToast(msg) {
+      const box = document.getElementById('toastBox');
+      if (!box) return;
+      box.textContent = msg;
+      box.style.display = 'block';
+      setTimeout(() => box.style.display = 'none', 3000);
+    }
+  </script>
 </body>
 </html>
