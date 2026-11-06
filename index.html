@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EZY School | सर्वसमावेशक शालेय वेब पोर्टल</title>
+  <meta name="description" content="EZY School (ezyschool.in) - MDM, Cash Book, GAV Survey, Result आणि HPC साठी एकात्मिक डिजिटल शालेय पोर्टल.">
+  <meta name="theme-color" content="#2563eb">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏫</text></svg>">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- =========================================
+       १. डायनॅमिक सूचना पट्टी (TOP NOTICE BAR)
+       ========================================= -->
+  <aside id="topNoticeBar" class="top-notice-bar" role="alert" aria-live="polite">
+    <div class="notice-content-wrapper">
+      <span class="notice-badge" id="noticeBadge">
+        <i class="fa-solid fa-bullhorn"></i> <span id="noticeBadgeText">सूचना</span>
+      </span>
+      <div class="notice-text">
+        <span id="noticeTextDisplay">महत्त्वाची सूचना लोड होत आहे...</span>
+      </div>
+      <button class="notice-dismiss-btn" id="dismissNoticeBtn" title="सूचना बंद करा" aria-label="Close Notice">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================
+       २. मुख्य हेडर / नेव्हिगेशन
+       ========================================= -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-wrapper">
+        <div class="logo-badge">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="brand-text">
+          <h1>EZY School</h1>
+          <span>ezyschool.in • डिजिटल शिक्षण मंच</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a href="admin.html" class="admin-header-btn" title="ॲडमिन पॅनल उघडा">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>ॲडमिन</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================
+       ३. मुख्य मजकूर / ५ कार्ड्स व्ह्यू
+       ========================================= -->
+  <main class="main-content">
+    
+    <!-- स्वागत विभाग -->
+    <section class="welcome-hero">
+      <div class="hero-pill">
+        <i class="fa-solid fa-circle-check"></i> सर्व सेवा एकाच ठिकाणी
+      </div>
+      <h2>शालेय डिजिटल दालन</h2>
+      <p>शासकीय व प्रशासकीय कामकाजासाठी आवश्यक प्रणालींमध्ये खालील कार्ड्सवरून थेट प्रवेश करा.</p>
+    </section>
+
+    <!-- ५ व्हर्टिकल कार्ड्स स्टॅक (Vertical 5 Cards for Mobile) -->
+    <div class="card-stack">
+
+      <!-- कार्ड १: GVP MDM (मध्यान्ह भोजन) -->
+      <article class="service-card card-mdm" id="card-mdm">
+        <div class="card-left">
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-utensils"></i>
+          </div>
+          <div class="card-info">
+            <span class="card-tag tag-active">सक्रिय (Active)</span>
+            <span class="marathi-title">१. शालेय पोषण आहार (MDM)</span>
+            <h3>GVP MDM Portal</h3>
+            <p>दैनिक पोषण आहार नोंदवही, मेनू व साठा व्यवस्थापन प्रणाली</p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="https://gvpapps.github.io/GVP-MDM/" 
+             id="link-mdm"
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="open-btn"
+             title="GVP MDM पोर्टल नवीन टॅबमध्ये उघडा">
+            <span>उघडा</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- कार्ड २: CASH-BOOK Mohapada -->
+      <article class="service-card card-cashbook" id="card-cashbook">
+        <div class="card-left">
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-book-journal-whills"></i>
+          </div>
+          <div class="card-info">
+            <span class="card-tag tag-active">सक्रिय (Active)</span>
+            <span class="marathi-title">२. कॅश बुक (मोहापाडा)</span>
+            <h3>CASH-BOOK Portal</h3>
+            <p>शालेय जमा-खर्च, बँक खाते व दैनिक रोकड वही हिशेब नोंद</p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="https://gvpapps.github.io/CASH-BOOK-Mohapada/" 
+             id="link-cashbook"
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="open-btn"
+             title="CASH BOOK पोर्टल नवीन टॅबमध्ये उघडा">
+            <span>उघडा</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- कार्ड ३: GAV-Survey (गाव सर्वेक्षण) -->
+      <article class="service-card card-survey" id="card-survey">
+        <div class="card-left">
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-users-viewfinder"></i>
+          </div>
+          <div class="card-info">
+            <span class="card-tag tag-active">सक्रिय (Active)</span>
+            <span class="marathi-title">३. गाव सर्वेक्षण (GAV)</span>
+            <h3>GAV-Survey Portal</h3>
+            <p>शाळा परिसरातील विद्यार्थी कुटुंब माहिती व गाव सर्वेक्षण डेटा</p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="https://gvpapps.github.io/GAV-Survey/" 
+             id="link-survey"
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="open-btn"
+             title="GAV-Survey पोर्टल नवीन टॅबमध्ये उघडा">
+            <span>उघडा</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- कार्ड ४: Result Portal (शालेय निकाल) -->
+      <article class="service-card card-result" id="card-result">
+        <div class="card-left">
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-square-poll-vertical"></i>
+          </div>
+          <div class="card-info">
+            <span class="card-tag tag-pending" id="badge-result">लवकरच उपलब्ध</span>
+            <span class="marathi-title">४. शालेय परीक्षा निकाल</span>
+            <h3 id="title-result">Result Portal</h3>
+            <p id="desc-result">सत्र व वार्षिक परीक्षा गुणदान, निकाल पत्रक व श्रेणी विश्लेषण</p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="#" 
+             id="link-result" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="open-btn btn-pending"
+             title="Result पोर्टल">
+            <span id="btn-text-result">लवकरच</span>
+            <i class="fa-solid fa-clock"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- कार्ड ५: HPC Card (Holistic Progress Card) -->
+      <article class="service-card card-hpc" id="card-hpc">
+        <div class="card-left">
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <div class="card-info">
+            <span class="card-tag tag-pending" id="badge-hpc">लवकरच उपलब्ध</span>
+            <span class="marathi-title">५. समग्र प्रगती पत्रक (HPC)</span>
+            <h3 id="title-hpc">HPC Card Portal</h3>
+            <p id="desc-hpc">नवीन शैक्षणिक धोरणानुसार (NEP) विद्यार्थ्यांचे सर्वांगीण प्रगती कार्ड</p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="#" 
+             id="link-hpc" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="open-btn btn-pending"
+             title="HPC Card पोर्टल">
+            <span id="btn-text-hpc">लवकरच</span>
+            <i class="fa-solid fa-clock"></i>
+          </a>
+        </div>
+      </article>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================
+       ४. फूटर
+       ========================================= -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2026 <strong>EZY School</strong>. सर्व हक्क राखीव.</p>
+      <p class="footer-domain">अधिकृत संकेतस्थळ: ezyschool.in</p>
+      <div class="footer-links">
+        <a href="index.html">मुख्यपृष्ठ</a>
+        <span>•</span>
+        <a href="admin.html">ॲडमिन नियंत्रण कक्ष</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Box -->
+  <div id="toastBox" class="toast-box" role="status"></div>
+
+  <!-- Firebase Compat Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EZY School | ॲडमिन नियंत्रण कक्ष (Admin Panel)</title>
+  <meta name="theme-color" content="#1e3a8a">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-auth-wrapper {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-header i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .auth-header h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+    }
+    .auth-error {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .admin-dashboard {
+      display: none; /* Shown only after login */
+    }
+    .db-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+    }
+    .db-badge.connected {
+      background: #dcfce7;
+      color: #15803d;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       हेडर / नेव्हिगेशन
+       ========================================= -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-wrapper">
+        <div class="logo-badge" style="background: linear-gradient(135deg, #1e3a8a, #0284c7);">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="brand-text">
+          <h1>EZY School ॲडमिन</h1>
+          <span>ezyschool.in • नियंत्रण कक्ष (Admin Panel)</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a href="index.html" class="admin-header-btn">
+          <i class="fa-solid fa-house"></i>
+          <span>मुख्यपृष्ठ</span>
+        </a>
+        <button id="logoutBtn" class="btn-danger" style="display: none; padding: 6px 12px; font-size: 0.8rem;">
+          <i class="fa-solid fa-right-from-bracket"></i> लॉगआउट
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================
+       १. ॲडमिन लॉगिन स्क्रीन (Auth View)
+       ========================================= -->
+  <div id="authScreen" class="admin-auth-wrapper">
+    <div class="auth-box">
+      <div class="auth-header">
+        <i class="fa-solid fa-user-lock"></i>
+        <h2>शाळा ॲडमिन लॉगिन</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+          कृपया अधिकृत लॉगिन आयडी व पासवर्ड टाका
+        </p>
+      </div>
+
+      <div id="authErrorMsg" class="auth-error">
+        <i class="fa-solid fa-circle-exclamation"></i> अमान्य लॉगिन आयडी किंवा पासवर्ड!
+      </div>
+
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminUserId">
+            <i class="fa-solid fa-id-badge"></i> ॲडमिन लॉगिन आयडी (मोबाईल)
+          </label>
+          <input type="text" id="adminUserId" class="form-input" placeholder="उदा. 9226979531" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">
+            <i class="fa-solid fa-key"></i> पासवर्ड (Password)
+          </label>
+          <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top: 10px;">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> लॉगिन करा
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================
+       २. ॲडमिन डॅशबोर्ड स्क्रीन (Authenticated View)
+       ========================================= -->
+  <main id="dashboardScreen" class="admin-dashboard">
+    <div class="admin-container">
+
+      <!-- स्टेटस बार -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 700; color: #0f172a;">प्रशासकीय नियंत्रण कक्ष</h2>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">लॉगिन आयडी: <strong>9226979531</strong> (Super Admin)</span>
+        </div>
+        <div id="dbStatusBadge" class="db-badge connected">
+          <i class="fa-solid fa-database"></i> Firebase RTDB कनेक्टेड
+        </div>
+      </div>
+
+      <!-- १. थेट सूचना प्रसारण विभाग (Live Notice Broadcaster) -->
+      <section class="admin-card-section" style="border-top: 4px solid #ef4444;">
+        <h3 class="section-title">
+          <i class="fa-solid fa-bullhorn" style="color: #ef4444;"></i>
+          होमपेजवर थेट सूचना प्रसारित करा (Live Notice Broadcast)
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+          येथे टाकलेली सूचना <code>ezyschool.in</code> च्या होमपेजवर सर्वात वर (Top Bar) लाईव्ह दिसेल.
+        </p>
+
+        <form id="noticeBroadcastForm">
+          <div class="form-group">
+            <label for="noticeTextInput">
+              सूचना मजकूर (Notice Message):
+            </label>
+            <textarea id="noticeTextInput" class="form-textarea" placeholder="उदा. सर्व शिक्षकांना सूचित करण्यात येते की, उद्या दिनांक १० रोजी पोषण आहार मासिक अहवाल जमा करावा..." required></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="noticePriority">प्राधान्य / रंग (Priority):</label>
+              <select id="noticePriority" class="form-select">
+                <option value="urgent">🔴 तातडीची (Urgent - Red)</option>
+                <option value="normal" selected>🔵 महत्त्वाची / सामान्य (Normal - Blue)</option>
+                <option value="info">🟢 माहितीसाठी (Info - Teal)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="noticeBadgeInput">बॅज टॅग (Badge Text):</label>
+              <input type="text" id="noticeBadgeInput" class="form-input" value="महत्त्वाची सूचना" placeholder="उदा. महत्त्वाची सूचना / अलर्ट">
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+            <input type="checkbox" id="noticeActiveToggle" checked style="width: 18px; height: 18px; cursor: pointer;">
+            <label for="noticeActiveToggle" style="margin-bottom: 0; font-size: 0.95rem; font-weight: 600; cursor: pointer;">
+              ही सूचना होमपेजवर त्वरित सक्रिय ठेवा (Show Notice on Homepage)
+            </label>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button type="submit" class="btn-primary" style="flex: 1; min-width: 200px; background: #dc2626;">
+              <i class="fa-solid fa-tower-broadcast"></i> सूचना प्रसारित करा (Broadcast Now)
+            </button>
+            <button type="button" id="clearNoticeBtn" class="btn-secondary">
+              <i class="fa-solid fa-trash-can"></i> सूचना बंद करा (Disable)
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- २. पोर्टल लिंक्स व्यवस्थापन (Manage 5 Card Links) -->
+      <section class="admin-card-section" style="border-top: 4px solid #2563eb;">
+        <h3 class="section-title">
+          <i class="fa-solid fa-link" style="color: #2563eb;"></i>
+          ५ कार्ड्सच्या लिंक्स व्यवस्थापित करा (Card URLs Manager)
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+          Result व HPC चे नवीन पोर्टल उपलब्ध झाल्यावर त्यांची लिंक येथे सेव्ह करा. ती थेट होमपेजवर लागू होईल.
+        </p>
+
+        <form id="portalLinksForm">
+          
+          <!-- ४. Result Link -->
+          <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border-left: 4px solid #8b5cf6;">
+            <label for="linkResultInput">
+              <i class="fa-solid fa-square-poll-vertical" style="color: #8b5cf6;"></i>
+              <strong>४. निकाल पोर्टल (Result Portal Link):</strong>
+            </label>
+            <input type="url" id="linkResultInput" class="form-input" placeholder="उदा. https://gvpapps.github.io/School-Result/ (लिंक आल्यावर येथे पेस्ट करा)">
+            <span style="font-size: 0.75rem; color: var(--text-muted);">* लिंक टाकल्यास होमपेजवरील Result कार्ड तात्काळ 'सक्रिय' (Active) होईल.</span>
+          </div>
+
+          <!-- ५. HPC Link -->
+          <div class="form-group" style="background: #f8fafc; padding: 12px; border-radius: var(--radius-sm); border-left: 4px solid #ec4899;">
+            <label for="linkHpcInput">
+              <i class="fa-solid fa-award" style="color: #ec4899;"></i>
+              <strong>५. प्रगती पत्रक पोर्टल (HPC Card Link):</strong>
+            </label>
+            <input type="url" id="linkHpcInput" class="form-input" placeholder="उदा. https://gvpapps.github.io/HPC-Card/ (लिंक आल्यावर येथे पेस्ट करा)">
+            <span style="font-size: 0.75rem; color: var(--text-muted);">* लिंक टाकल्यास होमपेजवरील HPC कार्ड तात्काळ 'सक्रिय' (Active) होईल.</span>
+          </div>
+
+          <!-- इतर ३ लिंक्स (MDM, Cash Book, Survey) -->
+          <details style="margin-top: 14px; background: #ffffff; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            <summary style="font-size: 0.88rem; font-weight: 600; cursor: pointer; color: var(--text-muted);">
+              इतर ३ मूळ लिंक्स बदलायच्या असल्यास येथे क्लिक करा (Advanced Settings)
+            </summary>
+            
+            <div class="form-group" style="margin-top: 14px;">
+              <label for="linkMdmInput">१. MDM Portal Link:</label>
+              <input type="url" id="linkMdmInput" class="form-input" value="https://gvpapps.github.io/GVP-MDM/">
+            </div>
+
+            <div class="form-group">
+              <label for="linkCashbookInput">२. CASH BOOK Link:</label>
+              <input type="url" id="linkCashbookInput" class="form-input" value="https://gvpapps.github.io/CASH-BOOK-Mohapada/">
+            </div>
+
+            <div class="form-group">
+              <label for="linkSurveyInput">३. GAV-Survey Link:</label>
+              <input type="url" id="linkSurveyInput" class="form-input" value="https://gvpapps.github.io/GAV-Survey/">
+            </div>
+          </details>
+
+          <button type="submit" class="btn-primary" style="margin-top: 16px;">
+            <i class="fa-solid fa-floppy-disk"></i> सर्व लिंक्स जतन करा (Save Links)
+          </button>
+        </form>
+      </section>
+
+      <!-- ३. त्वरित पूर्वदृश्य (Quick Live Preview) -->
+      <section class="admin-card-section" style="text-align: center;">
+        <h3 class="section-title" style="justify-content: center;">
+          <i class="fa-solid fa-eye"></i> थेट संकेतस्थळ तपासा
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
+          तुमच्या बदलांनंतर होमपेज कसे दिसते ते पाहण्यासाठी खालील बटण दाबा.
+        </p>
+        <a href="index.html" target="_blank" class="open-btn" style="display: inline-flex; text-decoration: none; padding: 10px 24px;">
+          <span>EZY School होमपेज उघडा</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification Box -->
+  <div id="toastBox" class="toast-box" role="status"></div>
+
+  <!-- Firebase Compat Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
