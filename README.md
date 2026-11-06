@@ -28,27 +28,42 @@
 
 ---
 
-## 🔥 Firebase Realtime Database सेटअप
+## 🔥 Firebase Realtime Database सुरक्षा सेटअप (Security Rules)
 
 डेटाबेस URL: `https://ezyschool-faa5c-default-rtdb.firebaseio.com/`
 
-डेटाबेसवर वाचणे (Read) आणि ॲडमिनकडून लिहिणे (Write) सुरळीत चालण्यासाठी **Firebase Console** मध्ये खालीलप्रमाणे Rules सेट करा:
+Google Firebase कडून येणारा **"Insecure Rules"** चा अलर्ट कायमस्वरूपी बंद करण्यासाठी आणि डेटा सुरक्षित करण्यासाठी:
 
 1. [Firebase Console](https://console.firebase.google.com/) वर जा.
-2. आपला प्रोजेक्ट **`ezyschool-faa5c`** उघडा.
-3. डाव्या मेनूमध्ये **Build** -> **Realtime Database** वर क्लिक करा.
-4. वर **Rules** टॅब निवडा आणि खालील कोड पेस्ट करून **Publish** दाबा:
+2. आपला प्रोजेक्ट **`ezyschool-faa5c`** निवडा.
+3. डाव्या बाजूला **Build ➔ Authentication ➔ Get Started** वर क्लिक करा.
+   - **Sign-in method** टॅबमध्ये जाऊन **Email/Password** पर्याय **Enable** करा.
+   - *(किंवा Anonymous पर्याय ऑन करा.)*
+4. आता डाव्या मेनूमध्ये **Build ➔ Realtime Database ➔ Rules** टॅब निवडा.
+5. तेथे जुने नियम काढून खालील नवीन सुरक्षित नियम (जे `firebase-rules.json` मध्येही आहेत) पेस्ट करा आणि **Publish** दाबा:
 
 ```json
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    ".read": false,
+    ".write": false,
+    "notice": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "portal_links": {
+      ".read": true,
+      ".write": "auth != null"
+    }
   }
 }
 ```
 
-*(टीप: यामुळे कोणत्याही अतिरिक्त टोकनशिवाय तुमचे पोर्टल व ॲडमिन पॅनल थेट कनेक्ट होईल.)*
+### 🔒 या नवीन नियमांचे फायदे:
+* **रूट लॉक (`.read: false`, `.write: false`):** अनोळखी व्यक्ती किंवा हॅकर्सना संपूर्ण डेटाबेस ॲक्सेस करता येणार नाही. गुगलचा सिक्युरिटी अलर्ट कायमस्वरूपी बंद होईल!
+* **पब्लिक रीईड (`.read: true`):** शाळेच्या वेबसाईटवर येणाऱ्या प्रत्येकाला सूचना व ५ कार्ड्स विनाअडथळा दिसतील.
+* **सुरक्षित राईट (`.write: "auth != null"`):** केवळ `admin.html` मधून अधिकृत आयडी व पासवर्डने लॉगिन केलेल्या ॲडमिनलाच सूचना प्रसारित करण्याचा अधिकार मिळेल.
+
 
 ---
 

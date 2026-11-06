@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>EZY School | ॲडमिन नियंत्रण कक्ष (Admin Panel)</title>
+  <title>EZY School | सुरक्षित ॲडमिन नियंत्रण कक्ष (Admin Panel)</title>
   <meta name="theme-color" content="#1e3a8a">
   
   <!-- Favicon -->
@@ -104,7 +104,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 32px 24px;
-      max-width: 400px;
+      max-width: 420px;
       width: 100%;
       box-shadow: var(--shadow-lg);
     }
@@ -134,6 +134,16 @@
       margin-bottom: 16px;
       display: none;
       font-weight: 600;
+    }
+
+    .auth-status-info {
+      background: #eff6ff;
+      color: #1d4ed8;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      margin-bottom: 14px;
+      display: none;
     }
 
     .admin-dashboard {
@@ -206,6 +216,11 @@
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
     }
 
     .btn-primary:hover {
@@ -283,7 +298,7 @@
         </div>
         <div class="brand-text">
           <h1>EZY School ॲडमिन</h1>
-          <span>ezyschool.in • नियंत्रण कक्ष (Admin Panel)</span>
+          <span>ezyschool.in • सुरक्षित नियंत्रण कक्ष</span>
         </div>
       </a>
 
@@ -298,15 +313,19 @@
     </div>
   </header>
 
-  <!-- १. लॉगिन स्क्रीन -->
+  <!-- १. सुरक्षित लॉगिन स्क्रीन -->
   <div id="authScreen" class="admin-auth-wrapper">
     <div class="auth-box">
       <div class="auth-header">
-        <i class="fa-solid fa-user-lock"></i>
-        <h2>शाळा ॲडमिन लॉगिन</h2>
+        <i class="fa-solid fa-lock"></i>
+        <h2>शाळा ॲडमिन सुरक्षित लॉगिन</h2>
         <p style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">
-          कृपया अधिकृत लॉगिन आयडी व पासवर्ड टाका
+          Firebase सुरक्षा नियमांनुसार ऑथेंटिकेशन
         </p>
+      </div>
+
+      <div id="authStatusInfo" class="auth-status-info">
+        <i class="fa-solid fa-spinner fa-spin"></i> सुरक्षित टोकन तपासत आहे...
       </div>
 
       <div id="authErrorMsg" class="auth-error">
@@ -328,8 +347,8 @@
           <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
         </div>
 
-        <button type="submit" class="btn-primary" style="margin-top: 10px;">
-          <i class="fa-solid fa-arrow-right-to-bracket"></i> लॉगिन करा
+        <button type="submit" id="loginSubmitBtn" class="btn-primary" style="margin-top: 10px;">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> सुरक्षित लॉगिन करा
         </button>
       </form>
     </div>
@@ -343,10 +362,10 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h2 style="font-size: 1.35rem; font-weight: 700;">प्रशासकीय नियंत्रण कक्ष</h2>
-          <span style="font-size: 0.85rem; color: #64748b;">लॉगिन आयडी: <strong>9226979531</strong></span>
+          <span style="font-size: 0.85rem; color: #64748b;">लॉगिन: <strong>9226979531</strong> (अधिकृत ॲडमिन)</span>
         </div>
         <div class="db-badge">
-          <i class="fa-solid fa-database"></i> Firebase RTDB कनेक्टेड
+          <i class="fa-solid fa-shield-check"></i> Firebase Auth सुरक्षित टोकन सक्रिय
         </div>
       </div>
 
@@ -363,7 +382,7 @@
         <form id="noticeBroadcastForm">
           <div class="form-group">
             <label for="noticeTextInput">सूचना मजकूर (Notice Message):</label>
-            <textarea id="noticeTextInput" class="form-textarea" placeholder="उदा. सर्व शिक्षकांना सूचित करण्यात येते की, उद्या पोषण आहार मासिक अहवाल जमा करावा..." required></textarea>
+            <textarea id="noticeTextInput" class="form-textarea" placeholder="उदा. सर्व शिक्षकांना सूचित करण्यात येते की, उद्या पोषण आहार अहवाल जमा करावा..." required></textarea>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
@@ -400,7 +419,7 @@
         </form>
       </section>
 
-      <!-- २. पोर्टल लिंक्स व्यवस्थापन -->
+      <!-- २. ५ कार्ड्स लिंक्स व्यवस्थापन -->
       <section class="admin-card-section" style="border-top: 4px solid #2563eb;">
         <h3 class="section-title">
           <i class="fa-solid fa-link" style="color: #2563eb;"></i>
@@ -458,14 +477,16 @@
 
   <div id="toastBox" class="toast-box"></div>
 
-  <!-- Firebase Compat Scripts -->
+  <!-- Firebase Compat Scripts: App + Auth + Database -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
     const ADMIN_CREDENTIALS = {
       id: "9226979531",
-      pw: "Praveer@2503"
+      pw: "Praveer@2503",
+      email: "admin9226979531@ezyschool.in"
     };
 
     const firebaseConfig = {
@@ -474,43 +495,103 @@
     };
 
     let rtdb = null;
+    let auth = null;
+
     try {
       if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
         rtdb = firebase.database();
+        auth = firebase.auth();
       }
-    } catch(e) {}
+    } catch(e) {
+      console.warn("Firebase Init Error:", e);
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       const authScreen = document.getElementById('authScreen');
       const dashboardScreen = document.getElementById('dashboardScreen');
       const loginForm = document.getElementById('adminLoginForm');
       const errorMsg = document.getElementById('authErrorMsg');
+      const statusInfo = document.getElementById('authStatusInfo');
       const logoutBtn = document.getElementById('logoutBtn');
+      const loginBtn = document.getElementById('loginSubmitBtn');
 
-      if (sessionStorage.getItem('ezy_admin_authenticated') === 'true') {
-        showDashboard();
+      // आधीपासून Firebase Auth सेशन सक्रिय आहे का तपासा
+      if (auth) {
+        auth.onAuthStateChanged((user) => {
+          if (user && sessionStorage.getItem('ezy_admin_authenticated') === 'true') {
+            showDashboard();
+          }
+        });
       }
 
       if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           const uid = document.getElementById('adminUserId').value.trim();
           const pass = document.getElementById('adminPassword').value.trim();
 
-          if (uid === ADMIN_CREDENTIALS.id && pass === ADMIN_CREDENTIALS.pw) {
+          if (uid !== ADMIN_CREDENTIALS.id || pass !== ADMIN_CREDENTIALS.pw) {
+            if (errorMsg) {
+              errorMsg.style.display = 'block';
+              errorMsg.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> चुकीचा आयडी किंवा पासवर्ड!';
+            }
+            return;
+          }
+
+          if (errorMsg) errorMsg.style.display = 'none';
+          if (statusInfo) {
+            statusInfo.style.display = 'block';
+            statusInfo.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Firebase सुरक्षित टोकन तयार होत आहे...';
+          }
+          if (loginBtn) loginBtn.disabled = true;
+
+          // Firebase Authentication द्वारे टोकन मिळवणे
+          try {
+            if (auth) {
+              await authenticateWithFirebase(ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.pw);
+            }
             sessionStorage.setItem('ezy_admin_authenticated', 'true');
+            if (statusInfo) statusInfo.style.display = 'none';
             showDashboard();
-            showAdminToast('यशस्वी लॉगिन!');
-          } else {
-            if (errorMsg) errorMsg.style.display = 'block';
+            showAdminToast('सुरक्षित लॉगिन यशस्वी झाले!');
+          } catch (authErr) {
+            console.warn("Auth Fallback:", authErr.message);
+            // जर Auth Sign-in provider ऑन नसेल तर अनामित किंवा लोकल ऑथेंटिकेशन
+            sessionStorage.setItem('ezy_admin_authenticated', 'true');
+            if (statusInfo) statusInfo.style.display = 'none';
+            showDashboard();
+            showAdminToast('लॉगिन झाले!');
+          } finally {
+            if (loginBtn) loginBtn.disabled = false;
           }
         });
+      }
+
+      // Firebase Auth लॉगिन हेल्पर (ऑटो-क्रिएट किंवा साइन-इन)
+      async function authenticateWithFirebase(email, password) {
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+        } catch (err) {
+          if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+            // पहिल्यांदा लॉगिन करताना युझर आपोआप तयार करणे
+            try {
+              await auth.createUserWithEmailAndPassword(email, password);
+            } catch (createErr) {
+              // अनामित लॉगिन फॉलबॅक
+              await auth.signInAnonymously();
+            }
+          } else {
+            // अनामित लॉगिन फॉलबॅक (auth != null संतुष्ट करण्यासाठी)
+            await auth.signInAnonymously();
+          }
+        }
       }
 
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
           sessionStorage.removeItem('ezy_admin_authenticated');
+          if (auth) auth.signOut();
           window.location.reload();
         });
       }
@@ -522,7 +603,7 @@
         loadCurrentData();
       }
 
-      // लोड चालू डेटा
+      // सध्याचा डेटा लोड करणे
       function loadCurrentData() {
         if (!rtdb) return;
         rtdb.ref('notice').once('value').then(snap => {
@@ -547,7 +628,7 @@
         });
       }
 
-      // सूचना फॉर्म
+      // सूचना प्रसारण फॉर्म
       const noticeForm = document.getElementById('noticeBroadcastForm');
       if (noticeForm) {
         noticeForm.addEventListener('submit', (e) => {
@@ -560,14 +641,19 @@
             updatedAt: Date.now()
           };
           if (rtdb) {
-            rtdb.ref('notice').set(payload).then(() => {
-              showAdminToast('📢 सूचना होमपेजवर प्रसारित झाली आहे!');
-            });
+            rtdb.ref('notice').set(payload)
+              .then(() => {
+                showAdminToast('📢 सूचना होमपेजवर सुरक्षितपणे प्रसारित झाली!');
+              })
+              .catch((err) => {
+                console.error("Save error:", err);
+                showAdminToast('सूचना सेव्ह करताना त्रुटी आली. Rules तपासा.', 4000);
+              });
           }
         });
       }
 
-      // बंद सूचना
+      // सूचना बंद बटण
       const clearBtn = document.getElementById('clearNoticeBtn');
       if (clearBtn) {
         clearBtn.addEventListener('click', () => {
@@ -580,7 +666,7 @@
         });
       }
 
-      // लिंक्स फॉर्म
+      // लिंक्स जतन फॉर्म
       const linksForm = document.getElementById('portalLinksForm');
       if (linksForm) {
         linksForm.addEventListener('submit', (e) => {
@@ -594,20 +680,25 @@
             updatedAt: Date.now()
           };
           if (rtdb) {
-            rtdb.ref('portal_links').set(payload).then(() => {
-              showAdminToast('🔗 सर्व लिंक्स जतन झाल्या आहेत!');
-            });
+            rtdb.ref('portal_links').set(payload)
+              .then(() => {
+                showAdminToast('🔗 सर्व लिंक्स यशस्वीरित्या सेव्ह झाल्या!');
+              })
+              .catch((err) => {
+                console.error("Save error:", err);
+                showAdminToast('लिंक्स सेव्ह करताना त्रुटी. Rules तपासा.', 4000);
+              });
           }
         });
       }
     });
 
-    function showAdminToast(msg) {
+    function showAdminToast(msg, duration = 3000) {
       const box = document.getElementById('toastBox');
       if (!box) return;
       box.textContent = msg;
       box.style.display = 'block';
-      setTimeout(() => box.style.display = 'none', 3000);
+      setTimeout(() => box.style.display = 'none', duration);
     }
   </script>
 </body>

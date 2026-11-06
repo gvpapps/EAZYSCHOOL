@@ -1,0 +1,14 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "notice": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+    "portal_links": {
+      ".read": true,
+      ".write": "auth != null"
+    }
+  }
+}
