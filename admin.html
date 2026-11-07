@@ -347,16 +347,16 @@
       <form id="adminLoginForm">
         <div class="form-group">
           <label for="adminUserId">
-            <i class="fa-solid fa-id-badge"></i> ॲडमिन लॉगिन आयडी (मोबाईल)
+            <i class="fa-solid fa-user-shield"></i> ॲडमिन लॉगिन आयडी
           </label>
-          <input type="text" id="adminUserId" class="form-input" placeholder="उदा. 9226979531" required autocomplete="username">
+          <input type="text" id="adminUserId" class="form-input" placeholder="लॉगिन आयडी टाका" required autocomplete="username">
         </div>
 
         <div class="form-group">
           <label for="adminPassword">
             <i class="fa-solid fa-key"></i> पासवर्ड (Password)
           </label>
-          <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+          <input type="password" id="adminPassword" class="form-input" placeholder="पासवर्ड टाका" required autocomplete="current-password">
         </div>
 
         <button type="submit" id="loginSubmitBtn" class="btn-primary" style="margin-top: 10px;">
@@ -374,7 +374,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h2 style="font-size: 1.35rem; font-weight: 700;">प्रशासकीय नियंत्रण कक्ष</h2>
-          <span style="font-size: 0.85rem; color: #64748b;">लॉगिन: <strong>9226979531</strong> (अधिकृत ॲडमिन)</span>
+          <span style="font-size: 0.85rem; color: #64748b;">स्थिती: <strong>अधिकृत ॲडमिन (Authorized Admin)</strong></span>
         </div>
         <div class="db-badge">
           <i class="fa-solid fa-shield-check"></i> Firebase Auth सुरक्षित टोकन सक्रिय
@@ -489,16 +489,14 @@
 
   <div id="toastBox" class="toast-box"></div>
 
-  <!-- Firebase Compat Scripts: App + Auth + Database -->
+  <!-- Firebase Compat Scripts: App + Database -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
     const ADMIN_CREDENTIALS = {
       id: "9226979531",
-      pw: "Praveer@2503",
-      email: "admin9226979531@ezyschool.in"
+      pw: "Praveer@2503"
     };
 
     const firebaseConfig = {
@@ -507,13 +505,11 @@
     };
 
     let rtdb = null;
-    let auth = null;
 
     try {
       if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
         rtdb = firebase.database();
-        auth = firebase.auth();
       }
     } catch(e) {
       console.warn("Firebase Init Error:", e);
@@ -528,17 +524,13 @@
       const logoutBtn = document.getElementById('logoutBtn');
       const loginBtn = document.getElementById('loginSubmitBtn');
 
-      // आधीपासून Firebase Auth सेशन सक्रिय आहे का तपासा
-      if (auth) {
-        auth.onAuthStateChanged((user) => {
-          if (user && sessionStorage.getItem('ezy_admin_authenticated') === 'true') {
-            showDashboard();
-          }
-        });
+      // आधीपासून लॉगिन असेल तर थेट डॅशबोर्ड उघडा
+      if (sessionStorage.getItem('ezy_admin_authenticated') === 'true') {
+        showDashboard();
       }
 
       if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
+        loginForm.addEventListener('submit', (e) => {
           e.preventDefault();
           const uid = document.getElementById('adminUserId').value.trim();
           const pass = document.getElementById('adminPassword').value.trim();
@@ -552,58 +544,15 @@
           }
 
           if (errorMsg) errorMsg.style.display = 'none';
-          if (statusInfo) {
-            statusInfo.style.display = 'block';
-            statusInfo.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Firebase सुरक्षित टोकन तयार होत आहे...';
-          }
-          if (loginBtn) loginBtn.disabled = true;
-
-          // Firebase Authentication द्वारे टोकन मिळवणे
-          try {
-            if (auth) {
-              await authenticateWithFirebase(ADMIN_CREDENTIALS.email, ADMIN_CREDENTIALS.pw);
-            }
-            sessionStorage.setItem('ezy_admin_authenticated', 'true');
-            if (statusInfo) statusInfo.style.display = 'none';
-            showDashboard();
-            showAdminToast('सुरक्षित लॉगिन यशस्वी झाले!');
-          } catch (authErr) {
-            console.warn("Auth Fallback:", authErr.message);
-            // जर Auth Sign-in provider ऑन नसेल तर अनामित किंवा लोकल ऑथेंटिकेशन
-            sessionStorage.setItem('ezy_admin_authenticated', 'true');
-            if (statusInfo) statusInfo.style.display = 'none';
-            showDashboard();
-            showAdminToast('लॉगिन झाले!');
-          } finally {
-            if (loginBtn) loginBtn.disabled = false;
-          }
+          sessionStorage.setItem('ezy_admin_authenticated', 'true');
+          showDashboard();
+          showAdminToast('सुरक्षित लॉगिन यशस्वी झाले!');
         });
-      }
-
-      // Firebase Auth लॉगिन हेल्पर (ऑटो-क्रिएट किंवा साइन-इन)
-      async function authenticateWithFirebase(email, password) {
-        try {
-          await auth.signInWithEmailAndPassword(email, password);
-        } catch (err) {
-          if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-            // पहिल्यांदा लॉगिन करताना युझर आपोआप तयार करणे
-            try {
-              await auth.createUserWithEmailAndPassword(email, password);
-            } catch (createErr) {
-              // अनामित लॉगिन फॉलबॅक
-              await auth.signInAnonymously();
-            }
-          } else {
-            // अनामित लॉगिन फॉलबॅक (auth != null संतुष्ट करण्यासाठी)
-            await auth.signInAnonymously();
-          }
-        }
       }
 
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
           sessionStorage.removeItem('ezy_admin_authenticated');
-          if (auth) auth.signOut();
           window.location.reload();
         });
       }
@@ -626,7 +575,7 @@
             if (n.badge) document.getElementById('noticeBadgeInput').value = n.badge;
             if (typeof n.active !== 'undefined') document.getElementById('noticeActiveToggle').checked = n.active;
           }
-        });
+        }).catch(err => console.warn('Notice fetch error:', err));
 
         rtdb.ref('portal_links').once('value').then(snap => {
           const l = snap.val();
@@ -637,14 +586,17 @@
             if (l.cashbook && l.cashbook.url) document.getElementById('linkCashbookInput').value = l.cashbook.url;
             if (l.survey && l.survey.url) document.getElementById('linkSurveyInput').value = l.survey.url;
           }
-        });
+        }).catch(err => console.warn('Links fetch error:', err));
       }
 
-      // सूचना प्रसारण फॉर्म
+      // १. थेट सूचना प्रसारण फॉर्म
       const noticeForm = document.getElementById('noticeBroadcastForm');
       if (noticeForm) {
         noticeForm.addEventListener('submit', (e) => {
           e.preventDefault();
+          const broadcastBtn = noticeForm.querySelector('button[type="submit"]');
+          if (broadcastBtn) broadcastBtn.disabled = true;
+
           const payload = {
             text: document.getElementById('noticeTextInput').value.trim(),
             priority: document.getElementById('noticePriority').value,
@@ -652,37 +604,49 @@
             active: document.getElementById('noticeActiveToggle').checked,
             updatedAt: Date.now()
           };
+
           if (rtdb) {
             rtdb.ref('notice').set(payload)
               .then(() => {
-                showAdminToast('📢 सूचना होमपेजवर सुरक्षितपणे प्रसारित झाली!');
+                showAdminToast('📢 सूचना होमपेजवर यशस्वीरित्या प्रसारित झाली!');
               })
               .catch((err) => {
                 console.error("Save error:", err);
-                showAdminToast('सूचना सेव्ह करताना त्रुटी आली. Rules तपासा.', 4000);
+                showAdminToast('त्रुटी: ' + (err.message || 'Firebase Rules तपासा'), 5000);
+              })
+              .finally(() => {
+                if (broadcastBtn) broadcastBtn.disabled = false;
               });
+          } else {
+            showAdminToast('Firebase जोडलेले नाही! इंटरनेट तपासा.', 4000);
+            if (broadcastBtn) broadcastBtn.disabled = false;
           }
         });
       }
 
-      // सूचना बंद बटण
+      // २. सूचना बंद बटण
       const clearBtn = document.getElementById('clearNoticeBtn');
       if (clearBtn) {
         clearBtn.addEventListener('click', () => {
           document.getElementById('noticeActiveToggle').checked = false;
           if (rtdb) {
             rtdb.ref('notice/active').set(false).then(() => {
-              showAdminToast('सूचना बंद केली.');
+              showAdminToast('होमपेजवरील सूचना बंद केली.');
+            }).catch(err => {
+              showAdminToast('त्रुटी: ' + err.message, 4000);
             });
           }
         });
       }
 
-      // लिंक्स जतन फॉर्म
+      // ३. ५ कार्ड्स लिंक्स जतन फॉर्म
       const linksForm = document.getElementById('portalLinksForm');
       if (linksForm) {
         linksForm.addEventListener('submit', (e) => {
           e.preventDefault();
+          const saveBtn = linksForm.querySelector('button[type="submit"]');
+          if (saveBtn) saveBtn.disabled = true;
+
           const payload = {
             result: { url: document.getElementById('linkResultInput').value.trim(), title: "Result Portal" },
             hpc: { url: document.getElementById('linkHpcInput').value.trim(), title: "HPC Card Portal" },
@@ -691,6 +655,7 @@
             survey: { url: document.getElementById('linkSurveyInput').value.trim() || "https://gvpapps.github.io/GAV-Survey/" },
             updatedAt: Date.now()
           };
+
           if (rtdb) {
             rtdb.ref('portal_links').set(payload)
               .then(() => {
@@ -698,8 +663,14 @@
               })
               .catch((err) => {
                 console.error("Save error:", err);
-                showAdminToast('लिंक्स सेव्ह करताना त्रुटी. Rules तपासा.', 4000);
+                showAdminToast('त्रुटी: ' + (err.message || 'Firebase Rules तपासा'), 5000);
+              })
+              .finally(() => {
+                if (saveBtn) saveBtn.disabled = false;
               });
+          } else {
+            showAdminToast('Firebase जोडलेले नाही! इंटरनेट तपासा.', 4000);
+            if (saveBtn) saveBtn.disabled = false;
           }
         });
       }
