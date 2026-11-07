@@ -112,8 +112,20 @@
     .notice-text {
       flex: 1;
       overflow: hidden;
-      text-overflow: ellipsis;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .notice-text marquee {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      cursor: pointer;
     }
 
     .notice-dismiss-btn {
@@ -570,7 +582,9 @@
         <i class="fa-solid fa-bullhorn"></i> <span id="noticeBadgeText">सूचना</span>
       </span>
       <div class="notice-text">
-        <span id="noticeTextDisplay">महत्त्वाची सूचना लोड होत आहे...</span>
+        <marquee id="noticeMarquee" behavior="scroll" direction="left" scrollamount="5" onmouseover="this.stop();" onmouseout="this.start();" ontouchstart="this.stop();" ontouchend="this.start();">
+          <span id="noticeTextDisplay">महत्त्वाची सूचना लोड होत आहे...</span>
+        </marquee>
       </div>
       <button class="notice-dismiss-btn" id="dismissNoticeBtn" title="सूचना बंद करा" aria-label="Close Notice">
         <i class="fa-solid fa-xmark"></i>
@@ -836,6 +850,8 @@
               }
 
               noticeBar.style.display = 'flex';
+              const marquee = document.getElementById('noticeMarquee');
+              if (marquee && marquee.start) marquee.start();
             } else {
               noticeBar.style.display = 'none';
             }

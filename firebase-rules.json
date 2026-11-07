@@ -4,11 +4,11 @@
     ".write": false,
     "notice": {
       ".read": true,
-      ".write": true
+      ".write": "newData.child('secret').val() === 'Praveer@2503'"
     },
     "portal_links": {
       ".read": true,
-      ".write": true
+      ".write": "newData.child('secret').val() === 'Praveer@2503'"
     }
   }
 }

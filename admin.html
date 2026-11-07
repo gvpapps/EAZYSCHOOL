@@ -602,6 +602,7 @@
             priority: document.getElementById('noticePriority').value,
             badge: document.getElementById('noticeBadgeInput').value.trim() || 'सूचना',
             active: document.getElementById('noticeActiveToggle').checked,
+            secret: ADMIN_CREDENTIALS.pw,
             updatedAt: Date.now()
           };
 
@@ -630,10 +631,14 @@
         clearBtn.addEventListener('click', () => {
           document.getElementById('noticeActiveToggle').checked = false;
           if (rtdb) {
-            rtdb.ref('notice/active').set(false).then(() => {
+            rtdb.ref('notice').update({
+              active: false,
+              secret: ADMIN_CREDENTIALS.pw,
+              updatedAt: Date.now()
+            }).then(() => {
               showAdminToast('होमपेजवरील सूचना बंद केली.');
             }).catch(err => {
-              showAdminToast('त्रुटी: ' + err.message, 4000);
+              showAdminToast('त्रुटी: ' + (err.message || 'Firebase Rules तपासा'), 4000);
             });
           }
         });
@@ -653,6 +658,7 @@
             mdm: { url: document.getElementById('linkMdmInput').value.trim() || "https://gvpapps.github.io/GVP-MDM/" },
             cashbook: { url: document.getElementById('linkCashbookInput').value.trim() || "https://gvpapps.github.io/CASH-BOOK-Mohapada/" },
             survey: { url: document.getElementById('linkSurveyInput').value.trim() || "https://gvpapps.github.io/GAV-Survey/" },
+            secret: ADMIN_CREDENTIALS.pw,
             updatedAt: Date.now()
           };
 

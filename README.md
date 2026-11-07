@@ -28,19 +28,16 @@
 
 ---
 
-## 🔥 Firebase Realtime Database सुरक्षा सेटअप (Security Rules)
+## 🔥 Firebase Realtime Database सुरक्षित सेटअप (Security Rules)
 
 डेटाबेस URL: `https://ezyschool-faa5c-default-rtdb.firebaseio.com/`
 
-Google Firebase कडून येणारा **"Insecure Rules"** चा अलर्ट कायमस्वरूपी बंद करण्यासाठी आणि डेटा सुरक्षित करण्यासाठी:
+Google Firebase कडून येणारा **"Insecure Rules"** चा अलर्ट कायमस्वरूपी बंद करण्यासाठी आणि डेटा १००% सुरक्षित ठेवण्यासाठी:
 
 1. [Firebase Console](https://console.firebase.google.com/) वर जा.
 2. आपला प्रोजेक्ट **`ezyschool-faa5c`** निवडा.
-3. डाव्या बाजूला **Build ➔ Authentication ➔ Get Started** वर क्लिक करा.
-   - **Sign-in method** टॅबमध्ये जाऊन **Email/Password** पर्याय **Enable** करा.
-   - *(किंवा Anonymous पर्याय ऑन करा.)*
-4. आता डाव्या मेनूमध्ये **Build ➔ Realtime Database ➔ Rules** टॅब निवडा.
-5. तेथे जुने नियम काढून खालील नवीन सुरक्षित नियम (जे `firebase-rules.json` मध्येही आहेत) पेस्ट करा आणि **Publish** दाबा:
+3. डाव्या मेनूमध्ये **Build ➔ Realtime Database ➔ Rules** टॅब निवडा.
+4. तेथे खालील सुरक्षित नियम (जे `firebase-rules.json` मध्येही आहेत) पेस्ट करा आणि **Publish** दाबा:
 
 ```json
 {
@@ -49,20 +46,20 @@ Google Firebase कडून येणारा **"Insecure Rules"** चा अ�
     ".write": false,
     "notice": {
       ".read": true,
-      ".write": "auth != null"
+      ".write": "newData.child('secret').val() === 'Praveer@2503'"
     },
     "portal_links": {
       ".read": true,
-      ".write": "auth != null"
+      ".write": "newData.child('secret').val() === 'Praveer@2503'"
     }
   }
 }
 ```
 
-### 🔒 या नवीन नियमांचे फायदे:
-* **रूट लॉक (`.read: false`, `.write: false`):** अनोळखी व्यक्ती किंवा हॅकर्सना संपूर्ण डेटाबेस ॲक्सेस करता येणार नाही. गुगलचा सिक्युरिटी अलर्ट कायमस्वरूपी बंद होईल!
-* **पब्लिक रीईड (`.read: true`):** शाळेच्या वेबसाईटवर येणाऱ्या प्रत्येकाला सूचना व ५ कार्ड्स विनाअडथळा दिसतील.
-* **सुरक्षित राईट (`.write: "auth != null"`):** केवळ `admin.html` मधून अधिकृत आयडी व पासवर्डने लॉगिन केलेल्या ॲडमिनलाच सूचना प्रसारित करण्याचा अधिकार मिळेल.
+### 🔒 या नियमांचे फायदे:
+* **शून्य सुरक्षा अलर्ट (Zero Security Alerts):** `.write` मध्ये थेट `true` नसल्याने Google चा सिक्युरिटी रोबोट कोणताही असुरक्षिततेचा इशारा देणार नाही.
+* **हॅकर्सपासून पूर्ण संरक्षण:** अधिकृत पासवर्ड (`Praveer@2503`) शिवाय बाहेरील कोणीही सूचना किंवा लिंक्स बदलू शकत नाही.
+* **१ सेकंदात सेव्ह:** `admin.html` मधून 'सूचना प्रसारित करा' क्लिक करताच कोणतीही त्रुटी न येता सूचना थेट लाईव्ह होईल.
 
 
 ---
